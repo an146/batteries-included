@@ -1,4 +1,5 @@
 open OUnit
+open Batteries
 open BatBigarray
 open BatStd
 
@@ -115,6 +116,15 @@ let test_uncombine () =
   aeq a c;
   aeq b d
 
+let test_group () =
+  let l =
+    List.enum [1;2;3;4]
+    |> Enum.group (const true)
+    |> List.of_enum
+    |> List.map List.of_enum
+  in
+  assert_equal [[1;2;3;4]] l
+
 let tests = "BatEnum" >::: [
   "Array" >:: test_array_enums;
   "List" >:: test_list_enums;
@@ -122,6 +132,7 @@ let tests = "BatEnum" >::: [
   "Rope" >:: test_rope_enums;
   "UTF8" >:: test_UTF8_enums;
   "bigarray" >:: test_bigarray_enums;
+  "group" >:: test_group;
   "Set" >:: test_set_enums;
   "uncombine" >:: test_uncombine;
 ]
